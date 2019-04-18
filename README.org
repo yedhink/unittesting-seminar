@@ -1,0 +1,174 @@
+*"Tests are something you know you should be doing, but haven’t had the time to learn, or tried to and didn’t get very far."*
+
+* Intro
+
+** Objective
+   1. To know what exactly is unit testing, to know about its applications and to write some tests live(if time allows)
+   2. Introduction to what's linting and how you can extend it to your favourite text editor
+   3. Auto Formatters and naming conventions
+   4. All examples shown using *Python*
+** Libraries used
+   1. unittest (python inbuilt)
+   2. math (python inbuilt)
+   3. flake8 (linter)
+   4. yapf (auto formatter)
+
+
+* UnitTesing in Python
+
+** Start a project called areas
+*** Directory Structure
+    *areas*
+         ├── *areas*
+         │   ├── area.py
+         │   └── __init__.py
+         └── *tests*
+             └── __init__.py
+
+*** Creation of directories and files
+    #+BEGIN_SRC bash
+    mkdir -p areas/{areas,tests}
+    cd areas
+    touch areas/__init__.py areas/area.py tests/__init__.py
+    #+END_SRC
+
+** Create a function for finding area of circle
+    #+BEGIN_SRC python
+    from math import pi
+    def circle_area(r):
+        return pi * (r**r)
+    #+END_SRC
+
+** Run with sample values
+    #+BEGIN_SRC python
+    radii = [0,1,0.1,2+3j,-7,True,'a']
+    for radius in radii:
+        print(circle_area(radius))
+    #+END_SRC
+
+** Are all the radii valid?
+
+*** Are negative values valid?
+
+**** No. Since radii here are simply the value of distance from center of circle to its circumference. Thus it should be +ve.
+
+*** Are data types other than int and float valid?
+
+**** No. It doesn't make any sense to give radius as True or as String.
+
+** Solution : Proper UnitTesting
+
+*** Start by importing the necessary modules
+    #+begin_src python
+    import unittest
+    from math import pi
+    from areas import area
+    #+end_src python
+
+*** Subclass unittest.TestCase and create appropriate tests
+    #+begin_src python
+    class TestCircleArea(unittest.TestCase):
+    #+end_src python
+
+*** Create a test to assert value of area function for different radii
+    [[file:assert-table.png][Different Assert Methods]]
+
+    #+begin_src python
+    def test_radius(self):
+        result = area.circle_area(1)
+        self.assertEqual(result,pi)
+    #+end_src python
+    *If the test outputs OK then our function definition is correct*
+
+*** Create a test to check negative values
+    *We can raise ValueError on intercepting a negative value as radius*
+
+    #+begin_src python
+    """
+    in test file
+    """
+    def on_negative_radii(self):
+        self.assertRaises(ValueError,area.circle_area,-7)
+    #+end_src
+
+    #+begin_src python
+    """
+    in area file, inside circle_area function, add the following
+    """
+    if r<0:
+       raise ValueError
+    #+end_src
+*** Create a test to check for invalid data types
+    *We can raise TypeError on intercepting a invalid datatype value*
+
+    #+begin_src python
+    """
+    in test file
+    """
+    def on_other_types(self):
+        self.assertRaises(TypeError,area.circle_area,"Hello")
+    #+end_src
+
+    #+begin_src python
+    """
+    in area file, inside circle_area function, add the following
+    """
+    if type(r) not in [int,float]:
+       raise TypeError
+    #+end_src
+** Workout Problem
+
+*** Create an unittest, which can be used with all programs done using Python Sockets, in Computer Networks Lab
+
+**** Example : Most people manually set the IP Address of the system while creating a socket. So when changing the system, the ip will also change, and will have to be manually changed again. Write a test case to make sure the IP Address is always same as that of the system.
+
+
+* Linting
+
+** What's it?
+***** It's the process of automatically checking the program code for errors
+** How can it be done?
+***** via your editor(live linting)
+***** via your build process
+***** via pre-commit hooks in version control
+** Types of Linting
+**** Syntax
+***** Refers to the anti-patterns and missing of keywords etc in code
+**** Code Style
+***** It deals with enforcing proper naming convention and standards
+** Popular linters
+|--------------+---------------------------|
+| Language     | Linter                    |
+|--------------+---------------------------|
+| C            | Clangd                    |
+| C++          | Clangd/CppCheck           |
+| Python       | Flake8/Pylint             |
+| Java         | CheckStyle                |
+| Shell Script | Shellcheck                |
+|--------------+---------------------------|
+
+
+* Auto Formatting
+
+** What's it?
+***** It's the process of automatically formatting the code to follow a particular style guide and coding convention
+
+** Why do we need to use it?
+***** Enforcing common style guide is valuable while in a project with team
+***** Code gets formatted with click of a button or command
+***** No need to discuss style in code review
+***** Saves time and energy
+** Popular formatters
+|----------+--------------------|
+| Language | Formatter          |
+|----------+--------------------|
+| C        | Clang-Format       |
+| C++      | Clang-Format       |
+| Python   | Yapf/Black         |
+| Java     | Google-Java-Format |
+|----------+--------------------|
+
+* Coding Standards and Style Guide
+
+** view the file [[][pep8-coding-standards]]
+** or visit [[https://pep8.org][pep8 org]]
