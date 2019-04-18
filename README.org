@@ -19,11 +19,11 @@
 ** Start a project called areas
 *** Directory Structure
     #+begin_src
-    *areas*
-         ├── *areas*
+    areas
+         ├── areas
          │   ├── area.py
          │   └── __init__.py
-         └── *tests*
+         └── tests
              └── __init__.py
     #+end_src
 
