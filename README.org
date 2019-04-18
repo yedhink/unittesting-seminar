@@ -170,5 +170,5 @@
 
 * Coding Standards and Style Guide
 
-** view the file [[][pep8-coding-standards]]
+** view the file [[https://github.com/yedhink/unittesting-seminar/blob/master/notes/pep8-coding-standards.txt][pep8-coding-standards]]
 ** or visit [[https://pep8.org][pep8 org]]
