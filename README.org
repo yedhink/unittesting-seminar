@@ -18,12 +18,14 @@
 
 ** Start a project called areas
 *** Directory Structure
+    #+begin_src
     *areas*
          ├── *areas*
          │   ├── area.py
          │   └── __init__.py
          └── *tests*
              └── __init__.py
+    #+end_src
 
 *** Creation of directories and files
     #+BEGIN_SRC bash
